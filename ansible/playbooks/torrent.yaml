@@ -1,0 +1,11 @@
+- name: Install and configure qBittorrent
+  hosts: torrent
+  strategy: free
+  become_method: sudo
+  become: yes
+  gather_facts: yes
+  roles:
+      - role: sagikazarmark.qbittorrent_nox 
+        vars:
+          qbittorrent_user: ubuntu
+          qbittorrent_group: ubuntu

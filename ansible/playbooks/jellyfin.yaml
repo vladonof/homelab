@@ -1,0 +1,14 @@
+---
+- hosts: jellyfin
+  become: yes
+  tasks:
+    - name: Install Jellyfin using official script
+      shell: curl https://repo.jellyfin.org/install-debuntu.sh | bash
+      async: 3600
+      poll: 10
+
+    - name: Ensure Jellyfin service is running and enabled
+      service:
+        name: jellyfin
+        state: started
+        enabled: yes

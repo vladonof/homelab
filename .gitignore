@@ -1,0 +1,125 @@
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.*
+.terraformrc
+terraform.rc
+**/terraform.tfvars
+**/terraform.tfvars.json
+**/*.auto.tfvars
+**/*.auto.tfvars.json
+**/override.tf
+**/override.tf.json
+**/*_override.tf
+**/*_override.tf.json
+.terraform.d/
+**/crash.log
+**/crash.*.log
+
+# Puppet
+**/Puppetfile.lock
+**/.resource_types/
+**/spec/fixtures/
+**/log/
+**/.vagrant/
+**/Vagrantfile.local
+**/.bundle/
+**/vendor/
+**/.librarian/
+**/.tmp/
+**/keys/
+**/ssl/
+**/*.pem
+**/*.key
+**/*.crt
+**/*.p12
+
+# Environment files
+.env
+.env.local
+.env.*.local
+**/*.secret
+**/*.secrets
+
+# SSH keys
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.ppk
+known_hosts
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Local configuration files (examples should use .example extension)
+config.local.*
+local.conf
+local.config
+
+# Documentation build files
+site/
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Python (if using any Python tools)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ruby (for Puppet development)
+.bundle
+Gemfile.lock
+.ruby-version
+.rbenv-version
+
+# Ansible (if you add it later)
+*.retry
+.vault_pass
+vault_pass.txt
+
+# Packer (if you use it for image building)
+packer_cache/
+*.box

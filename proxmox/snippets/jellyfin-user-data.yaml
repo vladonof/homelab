@@ -1,0 +1,51 @@
+#cloud-config
+package_update: true
+hostname: jellyfin.lan
+manage_etc_hosts: true
+users:
+  - name: ubuntu
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICteV78SNUmPqInEl+dPEMZyeoTuc+tV3BJPocUMgRwH tf@run
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+packages:
+  - qemu-guest-agent
+  - cifs-utils
+write_files:
+  - path: /root/.smbcreds
+    content: |
+      username=smbuser
+      password=
+    permissions: '0600'
+    owner: root:root
+  - path: /etc/systemd/system/mount-usbshare.service
+    content: |
+      [Unit]
+      Description=Mount USB Share from Proxmox
+      After=network-online.target
+      Wants=network-online.target
+      
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      ExecStartPre=/bin/mkdir -p /mnt/remote_usb
+      ExecStart=/bin/mount -t cifs //192.168.1.230/usbshare /mnt/remote_usb -o credentials=/root/.smbcreds,uid=1000,gid=1000,file_mode=0664,dir_mode=0775,_netdev
+      ExecStop=/bin/umount /mnt/remote_usb
+      
+      [Install]
+      WantedBy=multi-user.target
+    permissions: '0644'
+    owner: root:root
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - mkdir -p /mnt/remote_usb
+  - chown ubuntu:ubuntu /mnt/remote_usb
+  - echo '//192.168.1.230/usbshare  /mnt/remote_usb  cifs  credentials=/root/.smbcreds,uid=1000,gid=1000,file_mode=0664,dir_mode=0775,_netdev  0  0' >> /etc/fstab
+  - systemctl daemon-reload
+  - systemctl enable mount-usbshare.service
+  - systemctl start mount-usbshare.service
+  - mount -a
+power_state:
+  mode: reboot
+  timeout: 30
