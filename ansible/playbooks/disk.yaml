@@ -1,0 +1,38 @@
+---
+- name: Partition and mount disk on docker host
+  hosts: docker
+  become: yes
+  tasks:
+    - name: Create primary partition on /dev/sda
+      parted:
+        device: /dev/sda
+        number: 1
+        part_start: 0%
+        part_end: 100%
+        state: present
+        label: msdos
+
+    - name: Create ext4 filesystem on /dev/sda1
+      filesystem:
+        fstype: ext4
+        dev: /dev/sda1
+
+    - name: Create mount directory
+      file:
+        path: /mnt/docker
+        state: directory
+        mode: '0755'
+
+    - name: Mount the partition
+      mount:
+        path: /mnt/docker
+        src: /dev/sda1
+        fstype: ext4
+        state: mounted
+
+    - name: Add entry to /etc/fstab
+      mount:
+        path: /mnt/docker
+        src: /dev/sda1
+        fstype: ext4
+        state: present

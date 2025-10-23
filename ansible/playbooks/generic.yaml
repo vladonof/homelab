@@ -1,0 +1,46 @@
+---
+- name: Point systemd-resolved to Pi-hole
+  hosts: "all:!pihole"
+  strategy: free
+  become_method: sudo
+  become: yes
+  gather_facts: yes
+  vars:
+    pihole_ip: "192.168.1.254"
+  tasks:
+    - name: Ensure /etc/systemd/resolved.conf.d exists
+      file:
+        path: /etc/systemd/resolved.conf.d
+        state: directory
+        mode: '0755'
+
+    - name: Write systemd-resolved drop-in to use Pi-hole
+      copy:
+        dest: /etc/systemd/resolved.conf.d/99-pihole.conf
+        content: |
+          [Resolve]
+          DNS={{ pihole_ip }}
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+        - Restart systemd-resolved
+
+  handlers:
+    - name: Restart systemd-resolved
+      systemd:
+        name: systemd-resolved
+        state: restarted
+        enabled: yes
+
+- name: Servers
+  strategy: free
+  become_method: sudo
+  become: yes
+  gather_facts: yes
+  hosts: all
+  roles:
+    - role: artis3n.tailscale
+      vars:
+        state: present
+        tailscale_authkey: "tskey-auth-kzYMX77dsu11CNTRL-M3PrpqyHBoAk9J62k2KjoAcBAFwCp7X5"

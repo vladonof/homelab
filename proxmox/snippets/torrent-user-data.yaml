@@ -46,6 +46,7 @@ runcmd:
   - systemctl enable mount-usbshare.service
   - systemctl start mount-usbshare.service
   - mount -a
+  - ufw allow 8080
 power_state:
   mode: reboot
   timeout: 30

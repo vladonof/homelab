@@ -1,4 +1,5 @@
-hostname: pihole.lan
+#cloud-config
+hostname: kuma.lan
 manage_etc_hosts: true
 package_update: true
 users:

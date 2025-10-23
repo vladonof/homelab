@@ -1,0 +1,135 @@
+---
+# - name: Partition and mount disk on docker host
+#   hosts: docker
+#   strategy: free
+#   become_method: sudo
+#   become: yes
+#   gather_facts: yes
+#   tasks:
+#     - name: Create primary partition on /dev/vda
+#       parted:
+#         device: /dev/vda
+#         number: 1
+#         part_start: 0%
+#         part_end: 100%
+#         state: present
+#         label: msdos
+
+#     - name: Create ext4 filesystem on /dev/vda1
+#       filesystem:
+#         fstype: ext4
+#         dev: /dev/vda1
+
+#     - name: Create mount directory
+#       file:
+#         path: /mnt/vda
+#         state: directory
+#         mode: '0755'
+
+#     - name: Mount the partition
+#       mount:
+#         path: /mnt/vda
+#         src: /dev/vda1
+#         fstype: ext4
+#         state: mounted
+
+#     - name: Add entry to /etc/fstab
+#       mount:
+#         path: /mnt/vda
+#         src: /dev/vda1
+#         fstype: ext4
+#         state: present
+
+# - name: Install Docker
+#   hosts: docker
+#   strategy: free
+#   become_method: sudo
+#   become: yes
+#   gather_facts: yes
+#   tasks:
+#     - name: Update apt cache
+#       apt:
+#         update_cache: yes
+
+#     - name: Install required packages
+#       apt:
+#         name:
+#           - apt-transport-https
+#           - ca-certificates
+#           - curl
+#           - gnupg
+#           - lsb-release
+#         state: present
+
+#     - name: Add Docker GPG key
+#       apt_key:
+#         url: https://download.docker.com/linux/ubuntu/gpg
+#         state: present
+
+#     - name: Add Docker repository
+#       apt_repository:
+#         repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+#         state: present
+
+#     - name: Update apt cache after adding repo
+#       apt:
+#         update_cache: yes
+
+#     - name: Install Docker
+#       apt:
+#         name:
+#           - docker-ce
+#           - docker-ce-cli
+#           - containerd.io
+#           - docker-buildx-plugin
+#           - docker-compose-plugin
+#         state: present
+
+#     - name: Start and enable Docker service
+#       service:
+#         name: docker
+#         state: started
+#         enabled: yes
+
+#     - name: Add ubuntu user to docker group
+#       user:
+#         name: ubuntu
+#         groups: docker
+#         append: yes
+
+
+# - name: Install Nginx Proxy Manager
+  # hosts: docker
+  # strategy: free
+  # become_method: sudo
+  # become: yes
+  # gather_facts: yes
+  # tasks:
+  #   - name: Create directory for nginx proxy manager
+  #     file:
+  #       path: /mnt/vda/nginx-proxy-manager
+  #       state: directory
+  #       mode: '0755'
+
+  #   - name: Copy docker-compose.yml
+  #     copy:
+  #       src: dockerfiles/nginxproxymanager.docker-compose.yml
+  #       dest: /mnt/vda/nginx-proxy-manager/docker-compose.yml
+
+- name: Install Keycloak
+  hosts: docker
+  strategy: free
+  become_method: sudo
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Create directory for keycloak
+      file:
+        path: /mnt/vda/keycloak
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml
+      copy:
+        src: dockerfiles/keycloak.docker-compose.yml
+        dest: /mnt/vda/keycloak/docker-compose.yml

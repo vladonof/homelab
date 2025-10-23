@@ -11,7 +11,7 @@
         hseph_uninstall: no
         hseph_update: no
         hseph_configure: yes
-        hseph_os_check: yes
+        hseph_os_check: no
         hseph_pw_plain: password
         hseph_pihole_blocklist:
           - {url: 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts', enable: '1', comment: 'default'}
@@ -33,7 +33,8 @@
       - { domain: "pihole.lan", ip: "192.168.1.254" }
       - { domain: "torrent.lan", ip: "192.168.1.253" }
       - { domain: "jellyfin.lan", ip: "192.168.1.252" }
-      - { domain: "kuma.lan", ip: "192.168.1.105" }
+      - { domain: "kuma.lan", ip: "192.168.1.198" }
+      - { domain: "docker.lan", ip: "192.168.1.199" }
   tasks:
     - name: Deploy custom DNS records to dnsmasq.d
       template:

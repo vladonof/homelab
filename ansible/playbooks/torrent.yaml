@@ -7,5 +7,6 @@
   roles:
       - role: sagikazarmark.qbittorrent_nox 
         vars:
-          qbittorrent_user: ubuntu
-          qbittorrent_group: ubuntu
+          qbittorrent_nox_user: ubuntu
+          qbittorrent_nox_user_groups: [ubuntu]
+          qbittorrent_nox_webui_port: 80

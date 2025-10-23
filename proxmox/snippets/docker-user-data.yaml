@@ -1,5 +1,5 @@
 #cloud-config
-hostname: pihole.lan
+hostname: docker.lan
 manage_etc_hosts: true
 package_update: true
 users:

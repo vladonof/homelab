@@ -1,0 +1,48 @@
+- name: Uptime Kuma setup
+  hosts: kuma
+  strategy: free
+  become_method: sudo
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: add node repo
+      shell: curl -fsSL https://deb.nodesource.com/setup_22.x | bash
+      async: 3600
+      poll: 10
+
+    - name: Install nodejs via apt
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Clone Uptime Kuma repository
+      ansible.builtin.git:
+        repo: https://github.com/louislam/uptime-kuma.git
+        dest: /opt/uptime-kuma
+        version: master
+
+    - name: Run npm setup
+      ansible.builtin.shell:
+        cmd: npm run setup
+        chdir: /opt/uptime-kuma
+      environment:
+        PATH: /usr/bin:/bin
+
+    - name: Install PM2 globally
+      ansible.builtin.shell:
+        cmd: npm install pm2 -g
+      environment:
+        PATH: /usr/bin:/bin
+
+    - name: Install PM2 logrotate
+      ansible.builtin.shell:
+        cmd: pm2 install pm2-logrotate
+      environment:
+        PATH: /usr/bin:/bin
+
+    - name: Start Uptime Kuma with PM2
+      ansible.builtin.shell:
+        cmd: pm2 start server/server.js --name uptime-kuma
+        chdir: /opt/uptime-kuma
+      environment:
+        PATH: /usr/bin:/bin
