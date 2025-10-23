@@ -1,0 +1,57 @@
+---
+- name: Install Puppet Agent on Ubuntu Jammy
+  hosts: puppet_agents
+  become: true
+  become_method: sudo
+  gather_facts: yes
+
+  pre_tasks:
+    - name: Fail on non-Ubuntu Jammy
+      ansible.builtin.fail:
+        msg: "This playbook is intended for Ubuntu Jammy (22.04) hosts only."
+      when: ansible_facts['os_family'] != 'Debian' or ansible_facts['distribution'] != 'Ubuntu' or ansible_facts['distribution_release'] != 'jammy'
+
+  tasks:
+    - name: Ensure required apt packages are present
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - gnupg
+        state: present
+        update_cache: yes
+
+    - name: Add Puppet APT GPG key
+      ansible.builtin.apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: 4528B6CD9E61EF26
+        state: present
+
+    - name: Add Puppet APT repository for Puppet 7
+      ansible.builtin.apt_repository:
+        repo: "deb https://apt.puppet.com/ jammy puppet7"
+        state: present
+        filename: puppet7
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_facts['pkg_mgr'] == 'apt'
+
+    - name: Install puppet-agent
+      ansible.builtin.apt:
+        name: puppet-agent
+        state: present
+        install_recommends: no
+
+    - name: Add Puppet server to /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "192.168.1.253 puppet"
+        state: present
+
+    - name: Ensure puppet service is updated
+      ansible.builtin.service:
+        name: puppet
+        enabled: yes
+        state: restarted

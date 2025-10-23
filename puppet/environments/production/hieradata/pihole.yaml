@@ -1,0 +1,379 @@
+pihole::install_mode: 'apt'
+pihole::web_password: 'supersecure'
+pihole::interface: 'eth0'
+pihole::ipv4_address: '192.168.1.252/24'
+pihole::gateway: '192.168.1.1'
+pihole::upstream_dns:
+  - '8.8.8.8'
+  - '8.8.4.4'
+pihole::whitelist: []
+pihole::blacklist: []
+
+pihole_blocklist:
+  - {url: 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts', enable: '1', comment: 'default'}
+  - {url: 'https://big.oisd.nl', enable: '1', comment: 'default'}
+pihole_domainlist:
+  - {domain: 'example.com', type: '1', enabled: '1', comment: 'Block example.com'}
+
+pihole_dns_domain: 'lan'
+pihole_dns_cnamedeepinspect: true
+pihole_dns_blockesni: true
+pihole_dns_edns0ecs: true
+pihole_dns_ignorelocalhost: false
+pihole_dns_showdnssec: true
+pihole_dns_analyzeonlyaandaaaa: false
+pihole_dns_piholeptr: 'PI.HOLE'
+pihole_dns_replywhenbusy: 'REFUSE'
+pihole_dns_blockttl: '2'
+# Custom DNS records to be added (e.g., '192.168.1.10 printer').
+pihole_dns_hosts: []
+# Prevent forwarding of queries without a dot to upstream.
+pihole_dns_domainneeded: false
+# Automatically add domain to simple hostnames in /etc/hosts.
+pihole_dns_expandhosts: false
+# Reply 'no such domain' for private IP reverse lookups not found locally.
+pihole_dns_boguspriv: true
+# Enable DNSSEC validation of upstream replies.
+pihole_dns_dnssec: false
+# Interface to use for DNS and DHCP (if enabled).
+# Valid values: interface name or empty string
+pihole_dns_interface: ''
+# Add A/AAAA/PTR records manually.
+# Format: <name>[,<name>...],[<IPv4>],[<IPv6>][,<TTL>]
+pihole_dns_hostrecord: ''
+# DNS server interface listening mode.
+# Valid values: 'LOCAL', 'SINGLE', 'BIND', 'ALL', 'NONE'
+pihole_dns_listeningmode: 'LOCAL'
+# Enable or disable query logging to pihole.log.
+pihole_dns_querylogging: true
+# Custom CNAME entries.
+# Format: "<cname>,<target>[,<TTL>]" or empty string
+pihole_dns_cnamerecords: []
+# Port used by the DNS server.
+pihole_dns_port: '53'
+# Reverse (conditional) forwarding servers.
+# Format: array of "true,<ip/cidr>,<server>[#port][,<domain>]"
+pihole_dns_revservers: []
+# Size of the DNS query cache.
+pihole_dns_cache_size: '10000'
+# Time (in seconds) to serve expired cache entries if still fresh.
+# Valid values: 0–86400 or negative to disable
+pihole_dns_cache_optimizer: '3600'
+# TTL for blocked queries cached upstream.
+# Valid values: integer (e.g., '86400') or '0' to disable
+pihole_dns_cache_upstreamblockedttl: '86400'
+# Enable or disable DNS query blocking.
+pihole_dns_blocking_active: true
+# Response mode for blocked queries.
+# Valid values: 'NULL', 'IP', 'NX', 'NODATA', 'IP_NODATA_AAAA'
+pihole_dns_blocking_mode: 'NULL'
+# Whether to enrich blocked responses with EDNS info.
+# Valid values: 'NONE', 'CODE', 'TEXT'
+pihole_dns_blocking_edns: 'TEXT'
+# Block Firefox DoH detection domain (use-application-dns.net).
+pihole_dns_specialdomains_mozillacanary: true
+# Block Apple's iCloud Private Relay bypass domains.
+pihole_dns_specialdomains_icloudprivaterelay: true
+# Block designated resolver bypass queries.
+pihole_dns_specialdomains_designatedresolver: true
+# Force use of a specific IPv4 address for the PiHole host.
+pihole_dns_reply_host_force4: false
+# Custom IPv4 address to use for the PiHole host.
+# Valid values: valid IPv4 address or empty string
+pihole_dns_reply_host_ipv4: ''
+# Force use of a specific IPv6 address for the PiHole host.
+pihole_dns_reply_host_force6: false
+# Custom IPv6 address to use for the PiHole host.
+# Valid values: valid IPv6 address or empty string
+pihole_dns_reply_host_ipv6: ''
+# Force use of a specific IPv4 address for blocking in IP mode.
+pihole_dns_reply_blocking_force4: false
+# Custom IPv4 address to reply with in blocking mode.
+# Valid values: valid IPv4 address or empty string
+pihole_dns_reply_blocking_ipv4: ''
+# Force use of a specific IPv6 address for blocking in IP mode.
+pihole_dns_reply_blocking_force6: false
+# Custom IPv6 address to reply with in blocking mode.
+# Valid values: valid IPv6 address or empty string
+pihole_dns_reply_blocking_ipv6: ''
+# Maximum number of queries allowed per interval per client.
+pihole_dns_ratelimit_count: '1000'
+# Interval duration in seconds for rate-limiting.
+pihole_dns_ratelimit_interval: '60'
+# Enable the built-in DHCP server.
+pihole_dhcp_active: false
+# Start address of the DHCP pool.
+# Valid values: valid IPv4 address or empty string
+pihole_dhcp_start: ''
+# End address of the DHCP pool.
+# Valid values: valid IPv4 address or empty string
+pihole_dhcp_end: ''
+# Default gateway to advertise.
+# Valid values: valid IPv4 address or empty string
+pihole_dhcp_router: ''
+# Netmask to use (optional if directly connected).
+# Valid values: valid netmask or empty string
+pihole_dhcp_netmask: ''
+# DHCP lease time.
+# Valid values: duration string (e.g. '1h', '2d') or empty string
+pihole_dhcp_leasetime: ''
+# Enable DHCP for IPv6.
+pihole_dhcp_ipv6: false
+# Enable rapid commit DHCPv4 option.
+pihole_dhcp_rapidcommit: false
+# Advertise PiHole multiple times as DNS server.
+pihole_dhcp_multidns: false
+# Enable DHCP-related logging.
+pihole_dhcp_logging: false
+# Ignore clients not listed in static leases.
+pihole_dhcp_ignoreunknownclients: false
+# List of static DHCP leases.
+# Format: "[<hwaddr>][,id:<client_id>|*][,set:<tag>][,tag:<tag>][,<ipaddr>][,<hostname>][,<lease_time>][,ignore]" or empty string
+pihole_dhcp_hosts: []
+# Enable NTP server on IPv4.
+pihole_ntp_ipv4_active: true
+# IPv4 address to listen on for NTP.
+# Valid values: valid IPv4 address or empty string
+pihole_ntp_ipv4_address: ''
+# Enable NTP server on IPv6.
+pihole_ntp_ipv6_active: true
+# IPv6 address to listen on for NTP.
+# Valid values: valid IPv6 address or empty string
+pihole_ntp_ipv6_address: ''
+# Enable synchronization with an upstream NTP server.
+pihole_ntp_sync_active: true
+# Upstream NTP server to sync with.
+# Valid values: valid hostname or IP address
+pihole_ntp_sync_server: 'pool.ntp.org'
+# Interval in seconds between NTP syncs.
+pihole_ntp_sync_interval: '3600'
+# Number of sync attempts before updating system time.
+pihole_ntp_sync_count: '8'
+# Enable updating of the RTC device if present.
+pihole_ntp_sync_rtc_set: false
+# Path to the RTC device.
+# Valid values: valid path or empty string for auto-discovery
+pihole_ntp_sync_rtc_device: ''
+# Set RTC to UTC instead of local time.
+pihole_ntp_sync_rtc_utc: true
+# Enable reverse resolution of IPv4 addresses to hostnames.
+pihole_resolver_resolveipv4: true
+# Enable reverse resolution of IPv6 addresses to hostnames.
+pihole_resolver_resolveipv6: true
+# Try to resolve hostnames via MAC mapping when DNS fails.
+pihole_resolver_networknames: true
+# Controls frequency of PTR lookups.
+# Valid values: 'IPV4_ONLY', 'ALL', 'UNKNOWN', 'NONE'
+pihole_resolver_refreshnames: 'IPV4_ONLY'
+# Import query history from the database at startup.
+pihole_database_dbimport: true
+# How many days to retain query history in the database.
+# Valid values: integer as string, '0' disables DB use
+pihole_database_maxdbdays: '91'
+# Interval in seconds between writing queries to the DB.
+pihole_database_dbinterval: '60'
+# Enable SQLite Write-Ahead Logging mode.
+pihole_database_usewal: true
+# Parse local ARP cache for network info.
+pihole_database_network_parsearpcache: true
+# Retention period (in days) for client network data.
+pihole_database_network_expire: '91'
+# Domain name used to access the web interface.
+# Valid values: valid domain name
+pihole_webserver_domain: 'pi.hole'
+# Access control list for the web interface.
+# Valid values: ACL string (e.g., '+192.168.0.0/16') or empty
+pihole_webserver_acl: ''
+# Comma-separated list of web server ports (HTTP/HTTPS).
+# Valid values: '[::]:443s', '80o,443os', etc.
+pihole_webserver_port: '80o,443os,[::]:80o,[::]:443os'
+# Maximum number of concurrent web threads.
+pihole_webserver_threads: '50'
+# Additional HTTP headers to include in responses.
+# Valid values: list of valid headers
+pihole_webserver_headers:
+  - 'X-DNS-Prefetch-Control: off'
+  - 'Content-Security-Policy: default-src ''self'' ''unsafe-inline'';'
+  - 'X-Frame-Options: DENY'
+  - 'X-XSS-Protection: 0'
+  - 'X-Content-Type-Options: nosniff'
+  - 'Referrer-Policy: strict-origin-when-cross-origin'
+# Serve all files in the webroot.
+pihole_webserver_serve_all: false
+# Session timeout duration in seconds.
+pihole_webserver_session_timeout: '1800'
+# Restore sessions from database after restart.
+pihole_webserver_session_restore: true
+# Path to TLS certificate PEM file.
+# Valid values: valid file path to .pem
+pihole_webserver_tls_cert: '/etc/pihole/tls.pem'
+# Root directory of the web server.
+# Valid values: valid path
+pihole_webserver_paths_webroot: '/var/www/html'
+# Subdirectory containing the PiHole web UI.
+# Valid values: valid subpath (e.g., '/admin/')
+pihole_webserver_paths_webhome: '/admin/'
+# Prefix path if served behind a reverse proxy.
+# Valid values: valid path prefix or empty
+pihole_webserver_paths_prefix: ''
+# Use boxed layout on the web interface.
+pihole_webserver_interface_boxed: true
+# Theme of the web interface.
+# Valid values: 'default-auto', 'default-light', 'default-dark', 'default-darker', 'high-contrast', 'high-contrast-dark', 'lcars'
+pihole_webserver_interface_theme: 'default-auto'
+# Max number of concurrent API sessions.
+pihole_webserver_api_max_sessions: '16'
+# Prettify API JSON output.
+pihole_webserver_api_prettyjson: false
+# Hashed password for the API.
+# Valid values: password hash
+pihole_webserver_api_pwhash: ''
+# TOTP secret for 2FA.
+# Valid values: 20-byte base32 string or empty
+pihole_webserver_api_totp_secret: ''
+# App-specific password hash.
+# Valid values: password hash or empty
+pihole_webserver_api_app_pwhash: ''
+# Allow app passwords to modify config.
+pihole_webserver_api_app_sudo: false
+# Enable CLI password authentication via temporary token.
+pihole_webserver_api_cli_pw: true
+# Regex to exclude clients from logs/stats.
+# Valid values: array of regex strings or empty array
+pihole_webserver_api_excludeclients: []
+# Regex to exclude domains from logs/stats.
+# Valid values: array of regex strings or empty array
+pihole_webserver_api_excludedomains: []
+# Seconds of query history to expose via API.
+# Valid values: integer as string (max 86400)
+pihole_webserver_api_maxhistory: '86400'
+# Max clients in activity graph.
+pihole_webserver_api_maxclients: '10'
+# Use global max for activity graph.
+pihole_webserver_api_client_history_global_max: true
+# Allow destructive API operations (delete queries, shutdown).
+pihole_webserver_api_allow_destructive: true
+# Temperature threshold for alerting.
+# Valid values: float
+pihole_webserver_api_temp_limit: '60.0'
+# Unit for temperature metrics.
+# Valid values: 'C', 'F', 'K'
+pihole_webserver_api_temp_unit: 'C'
+# Path to the FTL PID file.
+# Valid values: writable file path
+pihole_files_pid: '/run/pihole-FTL.pid'
+# Path to FTL's long-term query database.
+# Valid values: writable database file
+pihole_files_database: '/etc/pihole/pihole-FTL.db'
+# Path to the gravity blocklist database.
+# Valid values: writable SQLite DB file
+pihole_files_gravity: '/etc/pihole/gravity.db'
+# Temporary directory used during gravity updates.
+# Valid values: writable directory path
+pihole_files_gravity_tmp: '/tmp'
+# Database for MAC address to vendor mapping.
+# Valid values: macvendor.db path
+pihole_files_macvendor: '/etc/pihole/macvendor.db'
+# Legacy PiHole config file.
+# Valid values: setupVars.conf path
+pihole_files_setupvars: '/etc/pihole/setupVars.conf'
+# Optional path to write network traffic capture.
+# Valid values: pcap file path or empty to disable
+pihole_files_pcap: ''
+# Path to the FTL daemon log file.
+# Valid values: writable log file path
+pihole_files_log_ftl: '/var/log/pihole/FTL.log'
+# Log file for the embedded dnsmasq DNS server.
+# Valid values: writable log file path
+pihole_files_log_dnsmasq: '/var/log/pihole/pihole.log'
+# Log file for the PiHole webserver.
+# Valid values: writable log file path
+pihole_files_log_webserver: '/var/log/pihole/webserver.log'
+# Privacy level for query logs and stats.
+# Valid values: 0 (none), 1 (hide domains), 2 (hide clients/domains), 3 (anonymize all)
+pihole_misc_privacylevel: '0'
+# Delay startup by this many seconds.
+# Valid values: integer as string (0–300)
+pihole_misc_delay_startup: '0'
+# Process priority (nice value).
+# Valid values: -20 (high priority) to 19 (low), -999 disables
+pihole_misc_nice: '-10'
+# Enable stack trace resolution in crash logs.
+pihole_misc_addr2line: true
+# Load additional config from /etc/dnsmasq.d.
+pihole_misc_etc_dnsmasq_d: true
+# Additional dnsmasq config lines.
+# Valid values: string or YAML list
+pihole_misc_dnsmasq_lines: []
+# Log extra DNS query info (only with query logging enabled).
+pihole_misc_extralogging: false
+# Enable read-only configuration mode.
+pihole_misc_readonly: false
+# Enable check for high system load.
+pihole_misc_check_load: true
+# Warn if shared memory usage exceeds this percentage.
+# Valid values: integer as string (0–100)
+pihole_misc_check_shmem: '90'
+# Warn if disk usage exceeds this percentage.
+# Valid values: integer as string (0–100)
+pihole_misc_check_disk: '90'
+# Enable detailed debug logging for this subsystem.
+pihole_debug_database: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_networking: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_locks: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_queries: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_flags: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_shmem: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_gc: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_arp: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_regex: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_api: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_tls: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_overtime: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_status: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_caps: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_dnssec: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_vectors: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_resolver: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_edns0: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_clients: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_aliasclients: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_events: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_helper: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_config: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_inotify: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_webserver: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_extra: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_reserved: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_ntp: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_netlink: false
+# Enable detailed debug logging for this subsystem.
+pihole_debug_all: false

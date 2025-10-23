@@ -1,0 +1,244 @@
+# pihole.toml.erb
+[dns]
+  upstreams = [
+  <% (@pihole_upstreams || []).each_with_index do |server, idx| %>
+    "<%= server %>"<% unless idx == (@pihole_upstreams || []).length - 1 %>,<% end %>
+  <% end %>
+  ]
+  CNAMEdeepInspect = <%= @pihole_dns_cnamedeepinspect %>
+  blockESNI = <%= @pihole_dns_blockesni %>
+  EDNS0ECS = <%= @pihole_dns_edns0ecs %>
+  ignoreLocalhost = <%= @pihole_dns_ignorelocalhost %>
+  showDNSSEC = <%= @pihole_dns_showdnssec %>
+  analyzeOnlyAandAAAA = <%= @pihole_dns_analyzeonlyaandaaaa %>
+  piholePTR = "<%= @pihole_dns_piholeptr %>"
+  replyWhenBusy = "<%= @pihole_dns_replywhenbusy %>"
+  blockTTL = <%= @pihole_dns_blockttl %>
+  hosts = [
+  <% (@pihole_dns_hosts || []).each_with_index do |host, idx| %>
+    "<%= host %>"<% unless idx == (@pihole_dns_hosts || []).length - 1 %>, <% end %>
+  <% end %>
+  ]
+  domainNeeded = <%= @pihole_dns_domainneeded %>
+  expandHosts = <%= @pihole_dns_expandhosts %>
+  domain = "<%= @pihole_dns_domain %>"
+  bogusPriv = <%= @pihole_dns_boguspriv %>
+  dnssec = <%= @pihole_dns_dnssec %>
+  interface = "<%= @pihole_dns_interface %>"
+  hostRecord = "<%= @pihole_dns_hostrecord %>"
+  listeningMode = "<%= @pihole_dns_listeningmode %>"
+  queryLogging = <%= @pihole_dns_querylogging %>
+  cnameRecords = [
+  <% (@pihole_dns_cnamerecords || []).each_with_index do |cname, idx| %>
+    "<%= cname %>"<% unless idx == (@pihole_dns_cnamerecords || []).length - 1 %>, <% end %>
+  <% end %>
+  ]
+  port = <%= @pihole_dns_port %>
+  revServers = [
+  <% (@pihole_dns_revservers || []).each_with_index do |rev, idx| %>
+    "<%= rev %>"<% unless idx == (@pihole_dns_revservers || []).length - 1 %>, <% end %>
+  <% end %>
+  ]
+
+  [dns.cache]
+    size = <%= @pihole_dns_cache_size %>
+    optimizer = <%= @pihole_dns_cache_optimizer %>
+    upstreamBlockedTTL = <%= @pihole_dns_cache_upstreamblockedttl %>
+
+  [dns.blocking]
+    active = <%= @pihole_dns_blocking_active %>
+    mode = "<%= @pihole_dns_blocking_mode %>"
+    edns = "<%= @pihole_dns_blocking_edns %>"
+
+  [dns.specialDomains]
+    mozillaCanary = <%= @pihole_dns_specialdomains_mozillacanary %>
+    iCloudPrivateRelay = <%= @pihole_dns_specialdomains_icloudprivaterelay %>
+    designatedResolver = <%= @pihole_dns_specialdomains_designatedresolver %>
+
+    [dns.reply.host]
+      force4 = <%= @pihole_dns_reply_host_force4 %>
+      IPv4 = "<%= @pihole_dns_reply_host_ipv4 %>"
+      force6 = <%= @pihole_dns_reply_host_force6 %>
+      IPv6 = "<%= @pihole_dns_reply_host_ipv6 %>"
+
+    [dns.reply.blocking]
+      force4 = <%= @pihole_dns_reply_blocking_force4 %>
+      IPv4 = "<%= @pihole_dns_reply_blocking_ipv4 %>"
+      force6 = <%= @pihole_dns_reply_blocking_force6 %>
+      IPv6 = "<%= @pihole_dns_reply_blocking_ipv6 %>"
+
+  [dns.rateLimit]
+    count = <%= @pihole_dns_ratelimit_count %>
+    interval = <%= @pihole_dns_ratelimit_interval %>
+
+[dhcp]
+  active = <%= @pihole_dhcp_active %>
+  start = "<%= @pihole_dhcp_start %>"
+  end = "<%= @pihole_dhcp_end %>"
+  router = "<%= @pihole_dhcp_router %>"
+  netmask = "<%= @pihole_dhcp_netmask %>"
+  leaseTime = "<%= @pihole_dhcp_leasetime %>"
+  ipv6 = <%= @pihole_dhcp_ipv6 %>
+  rapidCommit = <%= @pihole_dhcp_rapidcommit %>
+  multiDNS = <%= @pihole_dhcp_multidns %>
+  logging = <%= @pihole_dhcp_logging %>
+  ignoreUnknownClients = <%= @pihole_dhcp_ignoreunknownclients %>
+  hosts = [
+  <% (@pihole_dhcp_hosts || []).each_with_index do |host, idx| %>
+    "<%= host %>"<% unless idx == (@pihole_dhcp_hosts || []).length - 1 %>, <% end %>
+  <% end %>
+  ]
+
+[ntp.ipv4]
+  active = <%= @pihole_ntp_ipv4_active %>
+  address = "<%= @pihole_ntp_ipv4_address %>"
+
+[ntp.ipv6]
+  active = <%= @pihole_ntp_ipv6_active %>
+  address = "<%= @pihole_ntp_ipv6_address %>"
+
+[ntp.sync]
+  active = <%= @pihole_ntp_sync_active %>
+  server = "<%= @pihole_ntp_sync_server %>"
+  interval = <%= @pihole_ntp_sync_interval %>
+  count = <%= @pihole_ntp_sync_count %>
+
+  [ntp.sync.rtc]
+    set = <%= @pihole_ntp_sync_rtc_set %>
+    device = "<%= @pihole_ntp_sync_rtc_device %>"
+    utc = <%= @pihole_ntp_sync_rtc_utc %>
+
+[resolver]
+  resolveIPv4 = <%= @pihole_resolver_resolveipv4 %>
+  resolveIPv6 = <%= @pihole_resolver_resolveipv6 %>
+  networkNames = <%= @pihole_resolver_networknames %>
+  refreshNames = "<%= @pihole_resolver_refreshnames %>"
+
+[database]
+  DBimport = <%= @pihole_database_dbimport %>
+  maxDBdays = <%= @pihole_database_maxdbdays %>
+  DBinterval = <%= @pihole_database_dbinterval %>
+  useWAL = <%= @pihole_database_usewal %>
+
+  [database.network]
+    parseARPcache = <%= @pihole_database_network_parsearpcache %>
+    expire = <%= @pihole_database_network_expire %>
+
+[webserver]
+  domain = "<%= @pihole_webserver_domain %>"
+  acl = "<%= @pihole_webserver_acl %>"
+  port = "<%= @pihole_webserver_port %>"
+  threads = <%= @pihole_webserver_threads %>
+  headers = [
+  <% (@pihole_webserver_headers || []).each_with_index do |header, idx| %>
+    "<%= header %>"<% unless idx == (@pihole_webserver_headers || []).length - 1 %>,<% end %>
+  <% end %>
+  ]
+  serve_all = <%= @pihole_webserver_serve_all %>
+
+  [webserver.session]
+    timeout = <%= @pihole_webserver_session_timeout %>
+    restore = <%= @pihole_webserver_session_restore %>
+
+  [webserver.tls]
+    cert = "<%= @pihole_webserver_tls_cert %>"
+
+  [webserver.paths]
+    webroot = "<%= @pihole_webserver_paths_webroot %>"
+    webhome = "<%= @pihole_webserver_paths_webhome %>"
+    prefix = "<%= @pihole_webserver_paths_prefix %>"
+
+  [webserver.interface]
+    boxed = <%= @pihole_webserver_interface_boxed %>
+    theme = "<%= @pihole_webserver_interface_theme %>"
+
+  [webserver.api]
+    max_sessions = <%= @pihole_webserver_api_max_sessions %>
+    prettyJSON = <%= @pihole_webserver_api_prettyjson %>
+    pwhash = "<%= @pihole_webserver_api_pwhash %>"
+    totp_secret = "<%= @pihole_webserver_api_totp_secret %>"
+    app_pwhash = "<%= @pihole_webserver_api_app_pwhash %>"
+    app_sudo = <%= @pihole_webserver_api_app_sudo %>
+    cli_pw = <%= @pihole_webserver_api_cli_pw %>
+    excludeClients = [
+    <% (@pihole_webserver_api_excludeclients || []).each_with_index do |client, idx| %>
+      "<%= client %>"<% unless idx == (@pihole_webserver_api_excludeclients || []).length - 1 %>, <% end %>
+    <% end %>
+    ]
+    excludeDomains = [
+    <% (@pihole_webserver_api_excludedomains || []).each_with_index do |domain, idx| %>
+      "<%= domain %>"<% unless idx == (@pihole_webserver_api_excludedomains || []).length - 1 %>, <% end %>
+    <% end %>
+    ]
+    maxHistory = <%= @pihole_webserver_api_maxhistory %>
+    maxClients = <%= @pihole_webserver_api_maxclients %>
+    client_history_global_max = <%= @pihole_webserver_api_client_history_global_max %>
+    allow_destructive = <%= @pihole_webserver_api_allow_destructive %>
+
+    [webserver.api.temp]
+      limit = <%= @pihole_webserver_api_temp_limit %>
+      unit = "<%= @pihole_webserver_api_temp_unit %>"
+[files]
+  pid = "<%= @pihole_files_pid %>"
+  database = "<%= @pihole_files_database %>"
+  gravity = "<%= @pihole_files_gravity %>"
+  gravity_tmp = "<%= @pihole_files_gravity_tmp %>"
+  macvendor = "<%= @pihole_files_macvendor %>"
+  setupVars = "<%= @pihole_files_setupvars %>"
+  pcap = "<%= @pihole_files_pcap %>"
+
+  [files.log]
+    ftl = "<%= @pihole_files_log_ftl %>"
+    dnsmasq = "<%= @pihole_files_log_dnsmasq %>"
+    webserver = "<%= @pihole_files_log_webserver %>"
+
+[misc]
+  privacylevel = <%= @pihole_misc_privacylevel %>
+  delay_startup = <%= @pihole_misc_delay_startup %>
+  nice = <%= @pihole_misc_nice %>
+  addr2line = <%= @pihole_misc_addr2line %>
+  etc_dnsmasq_d = <%= @pihole_misc_etc_dnsmasq_d %>
+  dnsmasq_lines = [
+  <% (@pihole_misc_dnsmasq_lines || []).each_with_index do |line, idx| %>
+    "<%= line %>"<% unless idx == (@pihole_misc_dnsmasq_lines || []).length - 1 %>, <% end %>
+  <% end %>
+  ]
+  extraLogging = <%= @pihole_misc_extralogging %>
+  readOnly = <%= @pihole_misc_readonly %>
+
+  [misc.check]
+    load = <%= @pihole_misc_check_load %>
+    shmem = <%= @pihole_misc_check_shmem %>
+    disk = <%= @pihole_misc_check_disk %>
+
+[debug]
+  database = <%= @pihole_debug_database %>
+  networking = <%= @pihole_debug_networking %>
+  locks = <%= @pihole_debug_locks %>
+  queries = <%= @pihole_debug_queries %>
+  flags = <%= @pihole_debug_flags %>
+  shmem = <%= @pihole_debug_shmem %>
+  gc = <%= @pihole_debug_gc %>
+  arp = <%= @pihole_debug_arp %>
+  regex = <%= @pihole_debug_regex %>
+  api = <%= @pihole_debug_api %>
+  tls = <%= @pihole_debug_tls %>
+  overtime = <%= @pihole_debug_overtime %>
+  status = <%= @pihole_debug_status %>
+  caps = <%= @pihole_debug_caps %>
+  dnssec = <%= @pihole_debug_dnssec %>
+  vectors = <%= @pihole_debug_vectors %>
+  resolver = <%= @pihole_debug_resolver %>
+  edns0 = <%= @pihole_debug_edns0 %>
+  clients = <%= @pihole_debug_clients %>
+  aliasclients = <%= @pihole_debug_aliasclients %>
+  events = <%= @pihole_debug_events %>
+  helper = <%= @pihole_debug_helper %>
+  config = <%= @pihole_debug_config %>
+  inotify = <%= @pihole_debug_inotify %>
+  webserver = <%= @pihole_debug_webserver %>
+  extra = <%= @pihole_debug_extra %>
+  reserved = <%= @pihole_debug_reserved %>
+  ntp = <%= @pihole_debug_ntp %>
+  netlink = <%= @pihole_debug_netlink %>
+  all = <%= @pihole_debug_all %>

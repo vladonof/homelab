@@ -42,6 +42,16 @@ resource "proxmox_virtual_environment_file" "pihole_user_data" {
   }
 }
 
+resource "proxmox_virtual_environment_file" "pihole_puppet_user_data" {
+  node_name    = var.node
+  datastore_id = "local"
+  content_type = "snippets"
+
+  source_file {
+    path = "${path.module}/../snippets/pihole-puppet-user-data.yaml"
+  }
+}
+
 resource "proxmox_virtual_environment_file" "generic_user_data" {
   node_name    = var.node
   datastore_id = "local"
@@ -109,24 +119,7 @@ module "vm_pihole" {
   ci_ipv4_gateway = "192.168.1.1"
 }
 
-module "vm_torrent" {
-  source = "github.com/trfore/terraform-bpg-proxmox//modules/vm-clone"
-
-  vcpu = 1
-  vcpu_type = "host"
-  memory = 1024
-
-  node        = "proxmox"
-  vm_id       = 103
-  vm_name     = "torrent.lan"
-  template_id = module.vm_template.template_id
-  ci_ssh_key  = "~/.ssh/terraform_id_ed25519.pub"
-  ci_user_data = proxmox_virtual_environment_file.torrent_user_data.id
-  ci_ipv4_cidr = "192.168.1.253/24"
-  ci_ipv4_gateway = "192.168.1.1"
-}
-
-module "vm_jellyfin" {
+module "vm_puppet_server" {
   source = "github.com/trfore/terraform-bpg-proxmox//modules/vm-clone"
 
   vcpu = 2
@@ -134,57 +127,28 @@ module "vm_jellyfin" {
   memory = 4096
 
   node        = "proxmox"
-  vm_id       = 104
-  vm_name     = "jellyfin.lan"
+  vm_id       = 103
+  vm_name     = "puppet"
   template_id = module.vm_template.template_id
   ci_ssh_key  = "~/.ssh/terraform_id_ed25519.pub"
-  ci_user_data = proxmox_virtual_environment_file.jellyfin_user_data.id
-  ci_ipv4_cidr = "192.168.1.252/24"
+  ci_user_data = proxmox_virtual_environment_file.generic_user_data.id
+  ci_ipv4_cidr = "192.168.1.253/24"
   ci_ipv4_gateway = "192.168.1.1"
 }
 
-module "vm_kuma_uptime" {
+module "vm_pihole2" {
   source = "github.com/trfore/terraform-bpg-proxmox//modules/vm-clone"
 
   vcpu = 1
   vcpu_type = "host"
-  memory = 1024
+  memory = 2048
 
   node        = "proxmox"
-  vm_id       = 999
-  vm_name     = "kuma.lan"
+  vm_id       = 104
+  vm_name     = "pihole"
   template_id = module.vm_template.template_id
   ci_ssh_key  = "~/.ssh/terraform_id_ed25519.pub"
-  ci_user_data = proxmox_virtual_environment_file.kuma_user_data.id
-  ci_ipv4_cidr = "192.168.1.198/24"
-  ci_ipv4_gateway = "192.168.1.1"
-}
-
-module "vm_docker" {
-  source = "github.com/trfore/terraform-bpg-proxmox//modules/vm-clone"
-
-  vcpu = 3
-  vcpu_type = "host"
-  memory = 4096
-
-  disks = [
-    {
-      disk_storage = "local-lvm"
-      disk_size      = 8,
-    },
-    {
-      disk_interface = "virtio0",
-      disk_storage = "local-lvm"
-      disk_size      = 20,
-    },
-  ]
-
-  node        = "proxmox"
-  vm_id       = 9999
-  vm_name     = "docker.lan"
-  template_id = module.vm_template.template_id
-  ci_ssh_key  = "~/.ssh/terraform_id_ed25519.pub"
-  ci_user_data = proxmox_virtual_environment_file.docker_user_data.id
-  ci_ipv4_cidr = "192.168.1.199/24"
+  ci_user_data = proxmox_virtual_environment_file.pihole_puppet_user_data.id
+  ci_ipv4_cidr = "192.168.1.252/24"
   ci_ipv4_gateway = "192.168.1.1"
 }

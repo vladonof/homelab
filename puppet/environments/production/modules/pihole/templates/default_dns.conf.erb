@@ -1,0 +1,16 @@
+# default_dns.conf.erb
+<% if pihole_dns_for_inventory %>
+### Ansible Inventory Hosts ###
+<% groups['all'].each do |host| %>
+<% if hostvars[host]['ansible_host'] %>
+host-record=<%= hostvars[host]['inventory_hostname'] %>,<%= hostvars[host]['inventory_hostname'] %>.<%= pihole_dns_domain %>,<%= hostvars[host]['ansible_host'] %>
+<% end %>
+<% end %>
+<% end %>
+
+<% if pihole_dns_entries && pihole_dns_entries.length > 0 %>
+### Additional Static DNS Entries ###
+<% pihole_dns_entries.each do |entry| %>
+<%= entry %>
+<% end %>
+<% end %>

@@ -1,0 +1,18 @@
+#cloud-config
+hostname: pihole
+manage_etc_hosts: true
+package_update: true
+users:
+  - name: ubuntu
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICteV78SNUmPqInEl+dPEMZyeoTuc+tV3BJPocUMgRwH tf@run
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+packages:
+  - qemu-guest-agent
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+power_state:
+  mode: reboot
+  timeout: 30

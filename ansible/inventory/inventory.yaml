@@ -4,19 +4,14 @@ all:
       ansible_host: 192.168.1.254
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
-    torrent:
-      ansible_host: 192.168.1.253
-      ansible_user: ubuntu
-      ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
-    jellyfin:
+    pihole_puppet:
       ansible_host: 192.168.1.252
-      ansible_user: ubuntu
-      ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
-    kuma:
-      ansible_host: 192.168.1.198
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
     docker:
       ansible_host: 192.168.1.199
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
+puppet_agents:
+  hosts:
+    pihole_puppet:
