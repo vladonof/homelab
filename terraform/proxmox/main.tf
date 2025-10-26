@@ -20,7 +20,7 @@ provider "proxmox" {
 }
 
 module "vm_template" {
-  source = "./modules/vm-template"
+  source = "./../modules/vm-template"
 
   node                     = var.node
   vm_id                    = var.vm_id
@@ -38,7 +38,7 @@ resource "proxmox_virtual_environment_file" "pihole_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/pihole-user-data.yaml"
+    path = "${path.module}/snippets/pihole-user-data.yaml"
   }
 }
 
@@ -48,7 +48,7 @@ resource "proxmox_virtual_environment_file" "pihole_puppet_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/pihole-puppet-user-data.yaml"
+    path = "${path.module}/snippets/pihole-puppet-user-data.yaml"
   }
 }
 
@@ -58,7 +58,7 @@ resource "proxmox_virtual_environment_file" "generic_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/generic-user-data.yaml"
+    path = "${path.module}/snippets/generic-user-data.yaml"
   }
 }
 
@@ -68,7 +68,7 @@ resource "proxmox_virtual_environment_file" "torrent_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/torrent-user-data.yaml"
+    path = "${path.module}/snippets/torrent-user-data.yaml"
   }
 }
 
@@ -78,7 +78,7 @@ resource "proxmox_virtual_environment_file" "docker_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/docker-user-data.yaml"
+    path = "${path.module}/snippets/docker-user-data.yaml"
   }
 }
 
@@ -88,7 +88,7 @@ resource "proxmox_virtual_environment_file" "jellyfin_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/jellyfin-user-data.yaml"
+    path = "${path.module}/snippets/jellyfin-user-data.yaml"
   }
 }
 
@@ -98,7 +98,7 @@ resource "proxmox_virtual_environment_file" "kuma_user_data" {
   content_type = "snippets"
 
   source_file {
-    path = "${path.module}/../snippets/kuma-user-data.yaml"
+    path = "${path.module}/snippets/kuma-user-data.yaml"
   }
 }
 
@@ -119,7 +119,7 @@ module "vm_puppet_server" {
   ci_ipv4_gateway = "192.168.1.1"
 }
 
-module "vm_pihole2" {
+module "vm_pihole" {
   source = "github.com/trfore/terraform-bpg-proxmox//modules/vm-clone"
 
   vcpu      = 1

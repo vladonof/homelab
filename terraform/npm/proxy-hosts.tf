@@ -1,5 +1,5 @@
 module "proxy_hosts" {
-  source = "./modules/proxy-host"
+  source = "./../modules/proxy-host"
 
   proxy_hosts = [
 
@@ -62,7 +62,7 @@ module "proxy_hosts" {
     {
       domain_names    = ["pihole.homelab.vladonof.dev"]
       forward_scheme  = "https"
-      forward_host    = "192.168.1.133"
+      forward_host    = "192.168.1.252"
       forward_port    = 443
       websocket       = true
     },
@@ -97,7 +97,7 @@ module "proxy_hosts" {
     {
       domain_names    = ["proxmox.homelab.vladonof.dev"]
       forward_scheme  = "https"
-      forward_host    = "192.168.1.133"
+      forward_host    = "192.168.1.230"
       forward_port    = 8006
       websocket       = true
     }
