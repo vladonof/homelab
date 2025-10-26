@@ -1,22 +1,14 @@
 all:
   hosts:
     pihole:
-      ansible_host: 192.168.1.254
-      ansible_user: ubuntu
-      ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
-    pihole_puppet:
       ansible_host: 192.168.1.252
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
-    docker:
-      ansible_host: 192.168.1.199
-      ansible_user: ubuntu
-      ansible_ssh_private_key_file: ~/.ssh/terraform_id_ed25519
-    lxc_external:
-      ansible_host: 192.168.1.134
+    portainer:
+      ansible_host: 192.168.1.133
       ansible_user: root
       ansible_ssh_private_key_file: ~/.ssh/external
 puppet_agents:
   hosts:
-    pihole_puppet:
-    lxc_external:
+    pihole:
+    portainer:

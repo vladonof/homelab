@@ -2,7 +2,7 @@ node 'pihole.tailfd9a33.ts.net' {
   include pihole
 }
 
-node 'external.tailfd9a33.ts.net' {
+node 'docker.192.168.1.252' {
   include tailscale
 }
 

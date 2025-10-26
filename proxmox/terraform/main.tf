@@ -135,27 +135,3 @@ module "vm_pihole2" {
   ci_ipv4_cidr    = "192.168.1.252/24"
   ci_ipv4_gateway = "192.168.1.1"
 }
-
-module "lxc_external" {
-  source = "./modules/lxc-container"
-
-  node_name                 = "proxmox"
-  vm_id                     = 8013
-  unprivileged              = true
-  cpu_cores                 = 1
-  memory_dedicated          = 1024
-  disk_size                 = 4
-  disk_datastore_id         = "local-lvm"
-  hostname                  = "external"
-  ipv4_address              = "192.168.1.134/24"
-  ipv4_gateway              = "192.168.1.1"
-  template_file_id          = "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
-  network_name              = "eth0"
-  network_bridge            = "vmbr0"
-  password_length           = 16
-  password_override_special = "_%@"
-  password_special          = true
-  key_algorithm             = "RSA"
-  key_rsa_bits              = 2048
-  os_type                   = "debian"
-}
