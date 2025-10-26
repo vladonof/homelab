@@ -9,4 +9,5 @@ services:
       - /var/lib/docker/volumes/audobookshelf/config:/config
       - /var/lib/docker/volumes/audobookshelf/metadata:/metadata
     environment:
-      - TZ=America/Toronto
+      - TZ=Europe/London
+    restart: unless-stopped

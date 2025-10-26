@@ -1,0 +1,103 @@
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - /var/lib/docker/volumes/media-server/qbittorrent/config:/config
+      - /mnt/plexmedia/plex_media/downloads:/downloads
+    ports:
+      - 199:8080  # qBittorrent WebUI
+      - 6881:6881  # qBittorrent Torrenting
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+    volumes:
+      - /var/lib/docker/volumes/media-server/radarr/config:/config
+      - /mnt/plexmedia/plex_media/movies:/movies
+      - /mnt/plexmedia/plex_media/downloads:/downloads
+    ports:
+      - 198:7878  # Radarr WebUI
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+    volumes:
+      - /var/lib/docker/volumes/media-server/sonarr/config:/config
+      - /mnt/plexmedia/plex_media/downloads:/downloads
+      - /mnt/plexmedia/plex_media/tv:/tv
+    ports:
+      - 197:8989  # Sonarr WebUI
+    restart: unless-stopped
+
+  # lidarr:
+  #   image: linuxserver/lidarr
+  #   container_name: lidarr
+  #   environment:
+  #     - PUID=1001
+  #     - PGID=545
+  #     - TZ=Etc/UTC
+  #   volumes:
+  #     - /var/lib/docker/volumes/media-server/lidarr/config:/config
+  #     - /mnt/plexmedia/plex_media/downloads:/downloads
+  #     - /mnt/plexmedia/plex_media/music:/music
+  #   depends_on:
+  #     - nordvpn
+  #   network_mode: "service:nordvpn"
+  #   restart: unless-stopped
+
+  prowlarr:
+    image: linuxserver/prowlarr
+    container_name: prowlarr
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+    volumes:
+      - /var/lib/docker/volumes/media-server/prowlarr/config:/config
+    ports:
+      - 195:9696  # Prowlarr WebUI
+    restart: unless-stopped
+
+  overseerr:
+    image: sctx/overseerr
+    container_name: overseerr
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+    volumes:
+      - /var/lib/docker/volumes/media-server/overseerr/config:/app/config
+    ports:
+      - 194:5055  # Overseerr WebUI
+    restart: unless-stopped
+
+  # homarr:
+  #   image: ghcr.io/ajnart/homarr:latest
+  #   container_name: homarr
+  #   environment:
+  #     - PUID=1001
+  #     - PGID=545
+  #     - TZ=Etc/UTC
+  #   volumes:
+  #     - /var/lib/docker/volumes/media-server/homarr/config:/config
+  #   depends_on:
+  #     - nordvpn
+  #   network_mode: "service:nordvpn"
+  #   restart: unless-stopped
