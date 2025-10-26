@@ -5,12 +5,6 @@
   become_method: sudo
   gather_facts: yes
 
-  pre_tasks:
-    - name: Fail on non-Ubuntu Jammy
-      ansible.builtin.fail:
-        msg: "This playbook is intended for Ubuntu Jammy (22.04) hosts only."
-      when: ansible_facts['os_family'] != 'Debian' or ansible_facts['distribution'] != 'Ubuntu' or ansible_facts['distribution_release'] != 'jammy'
-
   tasks:
     - name: Ensure required apt packages are present
       ansible.builtin.apt:
@@ -50,8 +44,16 @@
         line: "192.168.1.253 puppet"
         state: present
 
-    - name: Ensure puppet service is updated
+    - name: Ensure puppet service is stopped and disabled
       ansible.builtin.service:
         name: puppet
-        enabled: yes
-        state: restarted
+        enabled: no
+        state: stopped
+
+    - name: Set up cron job for puppet agent to run every 6 hours
+      ansible.builtin.cron:
+        name: "Run puppet agent"
+        minute: "0"
+        hour: "*/6"
+        job: "/opt/puppetlabs/bin/puppet agent --test"
+        state: present

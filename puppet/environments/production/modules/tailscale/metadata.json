@@ -1,0 +1,9 @@
+{
+  "name": "vladonof-tailscale",
+  "version": "0.1.0",
+  "author": "vladonof",
+  "summary": "Manage Tailscale package, service and joining with an auth key",
+  "license": "Apache-2.0",
+  "source": "https://pkgs.tailscale.com/",
+  "dependencies": []
+}
