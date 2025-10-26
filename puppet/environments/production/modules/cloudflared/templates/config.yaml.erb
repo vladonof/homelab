@@ -1,0 +1,6 @@
+tunnel: <%= @tunnel_id %>
+credentials-file: <%= @credentials_file %>
+ingress:
+  - hostname: <%= @hostname %>
+    service: <%= @service %>
+  - service: http_status:404

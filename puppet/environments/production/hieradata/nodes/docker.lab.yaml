@@ -1,0 +1,4 @@
+cloudflared::credentials_file: '/root/.cloudflared/tunnel.json'
+cloudflared::hostname: 'plex.vladonof.dev'
+cloudflared::service: 'http://192.168.1.133:32400'
+cloudflared::tunnel_name: 'plex-tunnel'

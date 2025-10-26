@@ -2,104 +2,109 @@ module "proxy_hosts" {
   source = "./../modules/proxy-host"
 
   proxy_hosts = [
-
     {
-      domain_names    = ["overseerr.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 194
-      websocket       = false
+      domain_names   = ["overseerr.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 194
+      websocket      = false
     },
     {
-      domain_names    = ["prowlarr.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 195
-      websocket       = false
+      domain_names   = ["prowlarr.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 195
+      websocket      = false
     },
     {
-      domain_names    = ["radarr.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 197
-      websocket       = false
+      domain_names   = ["radarr.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 197
+      websocket      = false
     },
     {
-      domain_names    = ["sonarr.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 198
-      websocket       = false
+      domain_names   = ["sonarr.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 198
+      websocket      = false
     },
     {
-      domain_names    = ["torrent.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 199
-      websocket       = false
+      domain_names   = ["torrent.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 199
+      websocket      = false
     },
     {
-      domain_names    = ["audiobookshelf.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 85
-      websocket       = true
+      domain_names   = ["audiobookshelf.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 85
+      websocket      = true
     },
     {
-      domain_names    = ["cadvisor.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 84
-      websocket       = true
+      domain_names   = ["cadvisor.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 84
+      websocket      = true
     },
     {
-      domain_names    = ["grafana.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 83
-      websocket       = true
+      domain_names   = ["grafana.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 83
+      websocket      = true
     },
     {
-      domain_names    = ["pihole.homelab.vladonof.dev"]
-      forward_scheme  = "https"
-      forward_host    = "192.168.1.252"
-      forward_port    = 443
-      websocket       = true
+      domain_names   = ["pihole.homelab.vladonof.dev"]
+      forward_scheme = "https"
+      forward_host   = "192.168.1.252"
+      forward_port   = 443
+      websocket      = true
     },
     {
-      domain_names    = ["portainer.homelab.vladonof.dev"]
-      forward_scheme  = "https"
-      forward_host    = "192.168.1.133"
-      forward_port    = 9443
-      websocket       = true
+      domain_names   = ["portainer.homelab.vladonof.dev"]
+      forward_scheme = "https"
+      forward_host   = "192.168.1.133"
+      forward_port   = 9443
+      websocket      = true
     },
     {
-      domain_names    = ["prometheus.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 9090
-      websocket       = true
+      domain_names   = ["prometheus.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 9090
+      websocket      = true
     },
     {
-      domain_names    = ["authentik.homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 82
-      websocket       = true
+      domain_names   = ["authentik.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 82
+      websocket      = true
     },
     {
-      domain_names    = ["homelab.vladonof.dev"]
-      forward_scheme  = "http"
-      forward_host    = "192.168.1.133"
-      forward_port    = 81
-      websocket       = false
+      domain_names   = ["homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 81
+      websocket      = false
     },
     {
-      domain_names    = ["proxmox.homelab.vladonof.dev"]
-      forward_scheme  = "https"
-      forward_host    = "192.168.1.230"
-      forward_port    = 8006
-      websocket       = true
+      domain_names   = ["proxmox.homelab.vladonof.dev"]
+      forward_scheme = "https"
+      forward_host   = "192.168.1.230"
+      forward_port   = 8006
+      websocket      = true
+      }, {
+      domain_names   = ["plex.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 32400
+      websocket      = false
     }
   ]
 }
