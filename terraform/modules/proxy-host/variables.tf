@@ -6,6 +6,7 @@ variable "proxy_hosts" {
     forward_host    = string
     forward_port    = number
     websocket       = bool
+    advanced_config = optional(string)
   }))
 }
 

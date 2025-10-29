@@ -36,16 +36,17 @@ services:
       - 84:8080
     restart: unless-stopped
 
-  node-exporter:
-    image: prom/node-exporter:latest
+  smokeping:
+    image: lscr.io/linuxserver/smokeping:latest
+    container_name: smokeping
+    hostname: smokeping
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/rootfs'
+      - /var/lib/docker/volumes/smokeping/config:/config
+      - /var/lib/docker/volumes/smokeping/data:/data
     ports:
-      - 9100:9100
+      - 87:80
     restart: unless-stopped

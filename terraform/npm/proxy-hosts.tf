@@ -17,14 +17,14 @@ module "proxy_hosts" {
       websocket      = false
     },
     {
-      domain_names   = ["radarr.homelab.vladonof.dev"]
+      domain_names   = ["sonarr.homelab.vladonof.dev"]
       forward_scheme = "http"
       forward_host   = "192.168.1.133"
       forward_port   = 197
       websocket      = false
     },
     {
-      domain_names   = ["sonarr.homelab.vladonof.dev"]
+      domain_names   = ["radarr.homelab.vladonof.dev"]
       forward_scheme = "http"
       forward_host   = "192.168.1.133"
       forward_port   = 198
@@ -34,8 +34,19 @@ module "proxy_hosts" {
       domain_names   = ["torrent.homelab.vladonof.dev"]
       forward_scheme = "http"
       forward_host   = "192.168.1.133"
-      forward_port   = 199
-      websocket      = false
+      forward_port   = 86
+      websocket      = true
+      advanced_config = <<-EOT
+        location / {
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-Host $host;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_buffering off;
+          proxy_pass http://192.168.1.133:86;
+        }
+      EOT
     },
     {
       domain_names   = ["audiobookshelf.homelab.vladonof.dev"]
@@ -99,14 +110,38 @@ module "proxy_hosts" {
       forward_host   = "192.168.1.230"
       forward_port   = 8006
       websocket      = true
-      }, {
+    },
+    {
       domain_names   = ["plex.homelab.vladonof.dev"]
       forward_scheme = "http"
       forward_host   = "192.168.1.133"
       forward_port   = 32400
       websocket      = false
+    },
+    {
+      domain_names   = ["tautulli.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 196
+      websocket      = false
+    },
+    {
+      domain_names   = ["smokeping.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 87
+      websocket      = false
+    },
+    {
+      domain_names   = ["homepage.homelab.vladonof.dev"]
+      forward_scheme = "http"
+      forward_host   = "192.168.1.133"
+      forward_port   = 88
+      websocket      = false
     }
   ]
+
+  certificate_id = nginxproxymanager_certificate_letsencrypt.certificate.id
 }
 
 resource "nginxproxymanager_certificate_letsencrypt" "certificate" {
