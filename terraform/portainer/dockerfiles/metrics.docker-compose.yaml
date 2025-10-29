@@ -36,16 +36,40 @@ services:
       - 84:8080
     restart: unless-stopped
 
-  node-exporter:
-    image: prom/node-exporter:latest
+  smokeping:
+    image: lscr.io/linuxserver/smokeping:latest
+    container_name: smokeping
+    hostname: smokeping
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/rootfs'
+      - /var/lib/docker/volumes/smokeping/config:/config
+      - /var/lib/docker/volumes/smokeping/data:/data
     ports:
-      - 9100:9100
+      - 87:80
+    restart: unless-stopped
+
+  # homepage:
+  #   image: ghcr.io/gethomepage/homepage:latest
+  #   container_name: homepage
+  #   environment:
+  #     HOMEPAGE_ALLOWED_HOSTS: '*'
+  #     PUID: 1000 # optional, your user id
+  #     PGID: 1000 # optional, your group id
+  #   ports:
+  #     - 88:3000
+  #   volumes:
+  #     - /var/lib/docker/volumes/homepage/config:/app/config
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+  #   restart: unless-stopped
+
+  myspeed:
+    image: germannewsmaker/myspeed:latest
+    container_name: myspeed
+    ports:
+      - "79:5216"
+    volumes:
+      - /var/lib/docker/volumes/myspeed_data:/myspeed/data
     restart: unless-stopped

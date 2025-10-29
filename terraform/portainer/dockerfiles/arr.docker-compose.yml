@@ -3,6 +3,8 @@ services:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
     network_mode: host
+    ports:
+      - 193:32400
     environment:
       - PUID=1000
       - PGID=1000
@@ -18,6 +20,7 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
+    network_mode: "service:gluetun"
     environment:
       - PUID=1001
       - PGID=545
@@ -27,10 +30,20 @@ services:
     volumes:
       - /var/lib/docker/volumes/media-server/qbittorrent/config:/config
       - /mnt/plexmedia/plex_media/downloads:/downloads
-    ports:
-      - 199:8080  # qBittorrent WebUI
-      - 6881:6881  # qBittorrent Torrenting
     restart: unless-stopped
+
+  tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: tautulli
+    restart: unless-stopped
+    volumes:
+      - /var/lib/docker/volumes/media-server/tautulli/config:/config
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+    ports:
+      - 196:8181  
 
   radarr:
     image: linuxserver/radarr
@@ -41,8 +54,8 @@ services:
       - TZ=Etc/UTC
     volumes:
       - /var/lib/docker/volumes/media-server/radarr/config:/config
-      - /mnt/plexmedia/plex_media/movies:/movies
       - /mnt/plexmedia/plex_media/downloads:/downloads
+      - /mnt/plexmedia/plex_media/plex/movies:/movies
     ports:
       - 198:7878  # Radarr WebUI
     restart: unless-stopped
@@ -57,7 +70,7 @@ services:
     volumes:
       - /var/lib/docker/volumes/media-server/sonarr/config:/config
       - /mnt/plexmedia/plex_media/downloads:/downloads
-      - /mnt/plexmedia/plex_media/tv:/tv
+      - /mnt/plexmedia/plex_media/plex/tv:/tv
     ports:
       - 197:8989  # Sonarr WebUI
     restart: unless-stopped
@@ -81,14 +94,13 @@ services:
   prowlarr:
     image: linuxserver/prowlarr
     container_name: prowlarr
+    network_mode: "service:gluetun"
     environment:
       - PUID=1001
       - PGID=545
       - TZ=Etc/UTC
     volumes:
       - /var/lib/docker/volumes/media-server/prowlarr/config:/config
-    ports:
-      - 195:9696  # Prowlarr WebUI
     restart: unless-stopped
 
   overseerr:
@@ -102,6 +114,44 @@ services:
       - /var/lib/docker/volumes/media-server/overseerr/config:/app/config
     ports:
       - 194:5055  # Overseerr WebUI
+    restart: unless-stopped
+
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=1001
+      - PGID=545
+      - TZ=Etc/UTC
+    volumes:
+      - /var/lib/docker/volumes/media-server/readarr/config:/config
+      - /var/lib/docker/volumes/media-server/readarr/books:/books
+      - /var/lib/docker/volumes/media-server/readarr/downloads:/downloads
+
+      - /path/to/data:/config
+      - /path/to/books:/books #optional
+      - /path/to/downloadclient-downloads:/downloads #optional
+    ports:
+      - 8787:8787
+    restart: unless-stopped
+
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    ports:
+      - 86:8080  # qBittorrent WebUI
+      - 6881:6881  # qBittorrent Torrenting
+      - 195:9696  # Prowlarr WebUI
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=
+      - OPENVPN_PASSWORD=
+      - SERVER_COUNTRIES=Romania
     restart: unless-stopped
 
   # homarr:

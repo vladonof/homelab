@@ -16,4 +16,5 @@ resource "nginxproxymanager_proxy_host" "host" {
   http2_support   = var.http2_support
   hsts_enabled    = var.hsts_enabled
   hsts_subdomains = var.hsts_subdomains
+  advanced_config = each.value.advanced_config
 }
